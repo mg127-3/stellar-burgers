@@ -14,10 +14,8 @@ export const ProfileOrders: FC = () => {
   const status = useSelector(selectOrdersStatus);
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchUserOrders());
-    }
-  }, [status, dispatch]);
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
 
   if (status === 'loading' && !orders.length) {
     return <Preloader />;

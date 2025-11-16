@@ -4,24 +4,16 @@ import { useInView } from 'react-intersection-observer';
 import { TTabMode, TIngredient } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
-import { useDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 import {
-  fetchIngredients,
   selectIngredients,
   selectIngredientsStatus
 } from '../../services/slices/ingredients';
 import { Preloader } from '@ui';
 
 export const BurgerIngredients: FC = () => {
-  const dispatch = useDispatch();
   const allIngredients = useSelector(selectIngredients);
   const status = useSelector(selectIngredientsStatus);
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, status]);
 
   const buns = allIngredients.filter((i: TIngredient) => i.type === 'bun');
   const mains = allIngredients.filter((i: TIngredient) => i.type === 'main');
