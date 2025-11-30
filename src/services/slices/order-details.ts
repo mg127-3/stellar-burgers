@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getOrderByNumberApi } from '@api';
+import { getOrderByNumberApi } from '../../utils/burger-api';
 import { TOrder } from '@utils-types';
 import type { RootState } from '../store';
 
@@ -9,7 +9,7 @@ type TOrderDetailsState = {
   error: string | null;
 };
 
-const initialState: TOrderDetailsState = {
+export const initialState: TOrderDetailsState = {
   order: null,
   status: 'idle',
   error: null
@@ -27,7 +27,7 @@ export const fetchOrderByNumber = createAsyncThunk(
   }
 );
 
-const orderDetailsSlice = createSlice({
+export const orderDetailsSlice = createSlice({
   name: 'orderDetails',
   initialState,
   reducers: {},

@@ -13,7 +13,7 @@ export type ConstructorState = {
   ingredients: TConstructorIngredient[];
 };
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   bun: null,
   ingredients: []
 };
@@ -30,7 +30,7 @@ export const placeOrder = createAsyncThunk(
   }
 );
 
-const constructorSlice = createSlice({
+export const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {

@@ -11,7 +11,7 @@ type OrdersState = {
   error: string | null;
 };
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   orders: [],
   lastOrder: null,
   status: 'idle',
@@ -26,7 +26,7 @@ export const fetchUserOrders = createAsyncThunk(
   }
 );
 
-const ordersSlice = createSlice({
+export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
