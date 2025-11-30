@@ -19,7 +19,7 @@ type UserState = {
   error: string | null;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: null,
   isAuth: false,
   isAuthChecked: false,
@@ -93,7 +93,7 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
@@ -117,7 +117,9 @@ const userSlice = createSlice({
       )
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.isAuth = false;
+        state.user = null;
+        state.error = (action.payload as string) ?? 'Ошибка регистрации';
         state.isAuthChecked = true;
       })
 
@@ -135,7 +137,9 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.isAuth = false;
+        state.user = null;
+        state.error = (action.payload as string) ?? 'Ошибка авторизации';
         state.isAuthChecked = true;
       })
 
@@ -151,10 +155,11 @@ const userSlice = createSlice({
         state.isAuth = true;
         state.isAuthChecked = true;
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, (state, action) => {
         state.status = 'failed';
         state.isAuth = false;
         state.isAuthChecked = true;
+        state.error = (action.payload as string) ?? 'Не авторизован';
       })
 
       // update:
@@ -172,7 +177,7 @@ const userSlice = createSlice({
       )
       .addCase(updateProfile.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.error = (action.payload as string) ?? 'Ошибка обновления профиля';
       })
 
       // logout:
@@ -182,13 +187,14 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        state.status = 'succeeded';
         state.user = null;
         state.isAuth = false;
         state.isAuthChecked = true;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.error = (action.payload as string) ?? 'Ошибка выхода';
       });
   }
 });
