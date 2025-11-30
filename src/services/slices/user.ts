@@ -35,8 +35,11 @@ export const registerUser = createAsyncThunk(
       setCookie('accessToken', res.accessToken);
       localStorage.setItem('refreshToken', res.refreshToken);
       return res.user;
-    } catch (error: any) {
-      return rejectWithValue(error.message ?? 'Ошибка регистрации');
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Ошибка авторизации');
     }
   }
 );
@@ -50,8 +53,11 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem('refreshToken', res.refreshToken);
 
       return res.user;
-    } catch (error: any) {
-      return rejectWithValue(error.message ?? 'Ошибка авторизации');
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Ошибка авторизации');
     }
   }
 );
@@ -62,8 +68,11 @@ export const checkAuth = createAsyncThunk(
     try {
       const res = await getUserApi();
       return res.user;
-    } catch (error: any) {
-      return rejectWithValue(error.message ?? 'Не авторизован');
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Не авторизован');
     }
   }
 );
@@ -74,8 +83,11 @@ export const updateProfile = createAsyncThunk(
     try {
       const res = await updateUserApi(payload);
       return res.user;
-    } catch (error: any) {
-      return rejectWithValue(error.message ?? 'Ошибка обновления профиля');
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Ошибка обновления профиля');
     }
   }
 );
@@ -87,8 +99,11 @@ export const logoutUser = createAsyncThunk(
       await logoutApi();
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
-    } catch (error: any) {
-      return rejectWithValue(error.message ?? 'Ошибка выхода');
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Ошибка выхода');
     }
   }
 );

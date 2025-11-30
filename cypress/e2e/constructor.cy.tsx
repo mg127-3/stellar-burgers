@@ -4,7 +4,7 @@ describe('add ingredients to constructor works properly', () => {
   beforeEach(() => {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   it('should add a bun', () => {
@@ -33,7 +33,7 @@ describe('modal tests', () => {
   beforeEach(() => {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   it('should open the correct modal', () => {
@@ -63,7 +63,7 @@ describe('order test', () => {
     window.localStorage.setItem('refreshToken', 'mockRefreshToken');
     cy.setCookie('accessToken', 'mockAccessToken');
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   afterEach(() => {
@@ -79,5 +79,9 @@ describe('order test', () => {
     // clicking the Order button and checking the order number
     cy.get('[data-cy=order-button]').click();
     cy.get('[data-cy=order-number]').contains('123456').should('exist');
+
+    // the constructor should be empty of previously added ingredients
+    cy.get('[data-cy=constructor-ingredient]').contains('Ingredient 1').should('not.exist');
+    cy.get('[data-cy=constructor-ingredient]').contains('Ingredient 2').should('not.exist');
   });
 });

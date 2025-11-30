@@ -55,7 +55,7 @@ describe('Testing constructorSlice', () => {
     const state = constructorSlice.reducer(undefined, addIngredient(mockBun));
     expect(state.bun).toMatchObject({
       ...mockBun,
-      id: expect.any(String)
+      id: expect.stringMatching(/^[a-zA-Z0-9_-]{21}$/)
     });
   });
 
